@@ -16,7 +16,7 @@ struct Student {
 
 //使用 Call by Address (傳址呼叫)
 void updateMath(Student *s) { //將s改成*s，*s代表s是一個指標，用來儲存外部傳入的記憶體位址
- s->math = 100; //因為 s 是指標(位址)，不能直接用點(.)，必須用 ->來存取記憶體位址內部的成員 
+ s->math = 100; //因為 s 是指標(位址)，不能直接用點(.)，必須用(->)來存取記憶體位址內部的成員 
 }
  
 void printStudent(Student s) {
