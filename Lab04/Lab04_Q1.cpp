@@ -4,6 +4,7 @@ using namespace std;
 
 //定義一個名為 Student 的 Struct 
 struct Student {
+	
  int id;
  string name;
  int chinese;
@@ -13,10 +14,11 @@ struct Student {
  int science;
 };
 
-void updateMath(Student &s) { //將s改成&s， &s代表s是傳入變數的別名，可直接操作記憶，修改原始變數 
- s.math = 100; //因為是引用，所以這裡的修改會引響到 main裡的原始變數  
+//使用 Call by Address (傳址呼叫)
+void updateMath(Student *s) { //將s改成*s，*s代表s是一個指標，用來儲存外部傳入的記憶體地址 
+ s->math = 100; //因為 s 是指標(地址)，不能直接用點(.)，必須用 ->來存取記憶體地址內部的成員 
 }
-
+ 
 void printStudent(Student s) {
  cout << "學生編號: " << s.id << endl;
  cout << "姓名: " << s.name << endl;
@@ -37,10 +39,10 @@ int main()
  one.social = 68;
  one.science = 91;
  
- //呼叫函數並傳入one，因為函數參數是 Student &s，所以s會直接指向one的地址updateMath(one) 
- updateMath(one);
+ //呼叫時加上取址符號 (&) 
+ updateMath(&one); //把變數 one 在記憶體中的實際地址傳給函數 
  
- //列印出結果，且此時的 one.math已被修改成 100 
+ //列印出結果，且此時的 one.math已在記憶體地址被修改成 100 
  printStudent(one);
  return 0;
 }
