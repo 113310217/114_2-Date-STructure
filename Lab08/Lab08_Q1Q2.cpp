@@ -1,8 +1,8 @@
 #include <iostream>
 #include <queue>
 #include <vector>
-#include <algorithm> // 用於 std::max
-#include <climits>   // 用於 INT_MIN
+#include <algorithm> // 用於 std::max 函數來比較大小 
+#include <climits>   // 用於 INT_MIN (代表整數的最小值) 
 
 using namespace std;
 
@@ -12,37 +12,37 @@ public:
  int value;             // 節點的值
  TreeNode* left;        // 左子節點
  TreeNode* right;       // 右子節點
- TreeNode(int val) : value(val), left(NULL), right(NULL) {} // 初始化節點
+ TreeNode(int val) : value(val), left(NULL), right(NULL) {}  // 初始化節點，將左右節點指標設為空 
 };
 
 // 樹結構
 class BinaryTree {
 public:
  TreeNode* root;
- BinaryTree() : root(NULL) {} // 初始化樹
+ BinaryTree() : root(NULL) {} // 初始化樹，跟節點指向 NULL 
 
- // 用陣列構建二元樹
+ // 將陣列轉換為二元樹 
  void buildTree(vector<int>& arr) {
-  if (arr.empty()) return;
+  if (arr.empty()) return; // 如果陣列為空，直接返回 
 
-  queue<TreeNode*> q; // 儲存待處理的節點
-  root = new TreeNode(arr[0]); // 建立根節點 (陣列第一個元素)
-  q.push(root); // 將根節點加入queue
+  queue<TreeNode*> q; // 暫存已經建立但還沒分配子節點的父節點 
+  root = new TreeNode(arr[0]); // 陣列的第一個元素作為根節點 
+  q.push(root); // 將根節點放入隊列 
 
-  size_t i = 1; // 陣列索引
+  size_t i = 1; // 陣列索引從 1 開始 (陣列 0 為根節點) 
   while (!q.empty() && i<arr.size()) {
-   TreeNode* current = q.front(); // 取出隊列中的節點
-   q.pop();
+   TreeNode* current = q.front(); // 隊列最前面取出一個節點當作當前父節點 
+   q.pop(); // 取出後從隊列移除 
 
    // 添加左子節點
    if (i < arr.size()) {
-    current->left = new TreeNode(arr[i]);
-    q.push(current->left); // 將左子節點加入queue
+    current->left = new TreeNode(arr[i]); // 建立新節點放在左邊 
+    q.push(current->left); // 左子節點加入queue
     i++;
    }
    // 添加右子節點
    if (i < arr.size()) {
-    current->right = new TreeNode(arr[i]);
+    current->right = new TreeNode(arr[i]); // 建立新節點放在右邊 
     q.push(current->right); // 將右子節點加入queue
     i++;
    }
@@ -50,30 +50,33 @@ public:
  }
  
  // 中序遍歷
+ // 左子樹 -> 根節點 -> 右子樹 
  void inorderTraversal(TreeNode* node) {
-  if (node == NULL) return; // 如果節點為空，忽略
+  if (node == NULL) return; // 若走到空節點，則遞迴終止並回傳 
 
-  inorderTraversal(node->left);  // 遍歷左子樹
-  cout << node->value << " ";    // 訪問當前節點
-  inorderTraversal(node->right); // 遍歷右子樹
+  inorderTraversal(node->left);  // 往左走到底 
+  cout << node->value << " ";    // 訪問當前節點數值 
+  inorderTraversal(node->right); // 往右走到底 
  }
 
- //Q1:後序遍歷 (Left -> Right -> Root)
+ // Q1:後序遍歷 (Left -> Right -> Root)
+ // 左子樹 -> 右子樹 -> 根節點 
  void postorderTraversal(TreeNode* node) {
-  if (node == NULL) return;
-  postorderTraversal(node->left);
-  postorderTraversal(node->right);
-  cout << node->value << " ";
+  if (node == NULL) return; // 若走到空節點，則遞迴終止並回傳 
+  postorderTraversal(node->left); // 先處理左節點 
+  postorderTraversal(node->right); // 接著處理右節點 
+  cout << node->value << " "; // 最後列印出自己 (根) 
  }
   
-  // Q2: 尋找子樹最大值 (遞迴)
-  int findMax(TreeNode* node) {
-   if (node == nullptr) return INT_MIN;
-   int res = node->value;
-   int leftRes = findMax(node->left);
-   int rightRes = findMax(node->right);
-   return max({res, leftRes, rightRes});
-  }
+ // Q2: 尋找給定子樹最大值 
+ // 透過遞迴比較自己、左子樹最大值、右子樹最大值 
+ int findMax(TreeNode* node) { 
+  if (node == NULL) return INT_MIN; // 如果節點是空的，回傳 INT_MIN
+  int res = node->value;
+  int leftRes = findMax(node->left);
+  int rightRes = findMax(node->right);
+  return max({res, leftRes, rightRes});
+ }
 };
 
 int main() {
