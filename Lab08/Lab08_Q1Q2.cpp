@@ -72,10 +72,12 @@ public:
  // 透過遞迴比較自己、左子樹最大值、右子樹最大值 
  int findMax(TreeNode* node) { 
   if (node == NULL) return INT_MIN; // 如果節點是空的，回傳 INT_MIN
-  int res = node->value;
-  int leftRes = findMax(node->left);
-  int rightRes = findMax(node->right);
-  return max({res, leftRes, rightRes});
+  
+  int res = node->value; // 設當前節點為最大值 
+  int leftRes = findMax(node->left); // 遞迴找左邊的最大值 
+  int rightRes = findMax(node->right); // 遞迴找右邊的最大值  
+  
+  return max({res, leftRes, rightRes}); // 使用 max 函數找出最大值 
  }
 };
 
@@ -87,7 +89,7 @@ int main() {
 
  tree.buildTree(arr); // 建立樹
 
- // Q1結果:
+ // Q1輸出結果:
  cout << "Q1輸出結果:" << endl; 
  cout << "Inorder Traversal: ";
  tree.inorderTraversal(tree.root);
@@ -97,14 +99,14 @@ int main() {
  tree.postorderTraversal(tree.root);
  cout << "\n" << endl;
  
- // Q2結果:
+ // Q2輸出結果:
  cout << "Q2輸出結果:" << endl;
  cout << "Inorder Traversal: ";
  tree.inorderTraversal(tree.root);
  cout << endl;
-
- int leftMax = tree.findMax(tree.root->left);
- int rightMax = tree.findMax(tree.root->right);
+ 
+ int leftMax = tree.findMax(tree.root->left); // 找出根節點左子樹最大值 
+ int rightMax = tree.findMax(tree.root->right); // 找出根節點右子樹最大值 
  cout << "Max left subtree Value: " << (leftMax == INT_MIN ? 0 : leftMax) << endl;
  cout << "Max right subtree Value: " << (rightMax == INT_MIN ? 0 : rightMax) << endl;
     
